@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ProductRating from "./ProductRating";
 
 const ProductCard = ({ image, title, rating, _id }) => {
   const theme = useTheme();
@@ -28,14 +29,10 @@ const ProductCard = ({ image, title, rating, _id }) => {
           fontWeight="bold"
           component="div"
         >
-          {title}
+          {title ||
+            "I'm baby jianbing meh health goth craft beer. Lo-fi artisan meditation wayfarers photo booth health goth chicharrones roof party tote bag jean shorts cliche post-ironic. Ethical JOMO butcher distillery lumbersexual bruh. Fanny pack blog XOXO portland semiotics ascot"}
         </Typography>
-        <Box display="flex" gap={1}>
-          <Rating size="small" value={rating?.rate} readOnly />
-          <Typography variant="body2" color={theme.palette.neutral[400]}>
-            {rating?.rate} ({rating?.count} reviews)
-          </Typography>
-        </Box>
+        <ProductRating {...rating} size="small" />
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
         <Link

@@ -19,8 +19,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import { useRouter } from "next/router";
 
 const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
+  const router = useRouter();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,6 +31,11 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNavigate = (to) => {
+    handleClose();
+    router.push(to);
   };
 
   return (
@@ -49,7 +57,7 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
         <Stack direction="row" alignItems="center" py={2}>
           {/* header left */}
           <Link component={NextLink} href="/" underline="none">
-            <Typography variant="brand" variantMapping="p" fontSize="2rem">
+            <Typography variant="brand" component="h6" fontSize="2rem">
               Baylei's
             </Typography>
           </Link>
@@ -77,7 +85,7 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
 
             <Link
               component={NextLink}
-              href="/cart"
+              href="/login"
               underline="none"
               fontWeight="bold"
               sx={(theme) => ({
@@ -115,13 +123,13 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
                 "aria-labelledby": "navigation-menu",
               }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={() => handleNavigate("/cart")}>
                 <ListItemIcon>
                   <ShoppingCartIcon />
                 </ListItemIcon>
                 Cart
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={() => handleNavigate("/login")}>
                 <ListItemIcon>
                   <ExitToAppIcon />
                 </ListItemIcon>

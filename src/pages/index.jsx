@@ -1,22 +1,28 @@
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import Products from "@/components/Products";
 import SearchAndFilter from "@/components/SearchAndFilter";
-import { connect } from "@/db/db";
+import connectMongo from "@/db/connectMongo";
 import Product from "@/models/Product";
 import { convertDocToObj } from "@/utils/convertDocToObj";
-import { Typography } from "@mui/material";
 import { disconnect } from "mongoose";
 
 export const getStaticProps = async () => {
-  await connect();
-  const products = await Product.find({}).lean();
-  await disconnect();
-
-  return {
-    props: {
-      products: products.map(convertDocToObj),
-    },
-  };
+  try {
+    await connectMongo();
+    const products = await Product.find({}).lean();
+    await disconnect();
+    return {
+      props: {
+        products: products.map(convertDocToObj),
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        serverError: "Can not connect to DB.",
+      },
+    };
+  }
 };
 
 const Home = ({ toggleTheme, activeTheme, products }) => {
