@@ -21,7 +21,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { getCartItems, getTotalCartItemsQty } from "@/features/cart/cartSlice";
+import { getTotalCartItemsQty } from "@/features/cart/cartSlice";
 
 const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
   const router = useRouter();
@@ -140,7 +140,7 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
                 <ListItemIcon>
                   <ShoppingCartIcon />
                 </ListItemIcon>
-                Cart
+                Cart {cartItemsQty ? `(${cartItemsQty})` : null}
               </MenuItem>
               <MenuItem onClick={() => handleNavigate("/login")}>
                 <ListItemIcon>

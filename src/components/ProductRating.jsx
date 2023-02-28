@@ -5,7 +5,7 @@ const ProductRating = ({ rate, count, size = "medium" }) => {
 
   return (
     <Box display="flex" alignItems="flex-end" gap={1}>
-      <Rating size={size} value={rate} readOnly />
+      <Rating size={size} value={rate} precision={0.5} readOnly />
       <Typography variant="body2" color={theme.palette.neutral[400]}>
         {rate} ({count} reviews)
       </Typography>

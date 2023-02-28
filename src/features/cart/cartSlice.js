@@ -20,6 +20,19 @@ const cartSlice = createSlice({
 
       state.cartItems[_id].qty += 1;
     },
+    removeFromCart: (state, action) => {
+      delete state.cartItems[action.payload];
+    },
+    increaseItemQty: (state, action) => {
+      state.cartItems[action.payload].qty += 1;
+    },
+    decreaseItemQty: (state, action) => {
+      const newQty = state.cartItems[action.payload].qty - 1;
+      if (newQty < 1) {
+        return;
+      }
+      state.cartItems[action.payload].qty = newQty;
+    },
   },
 });
 
@@ -36,5 +49,6 @@ export const getTotalCartItemsQty = (state) => {
   return totalQty;
 };
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, increaseItemQty, decreaseItemQty } =
+  cartSlice.actions;
 export default cartSlice.reducer;

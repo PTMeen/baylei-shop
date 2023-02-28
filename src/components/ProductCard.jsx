@@ -6,27 +6,29 @@ import {
   IconButton,
   Link,
   Typography,
-  Rating,
+  Badge,
   Box,
   useTheme,
 } from "@mui/material";
 import NextLink from "next/link";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import ProductRating from "./ProductRating";
-import { addToCart } from "@/features/cart/cartSlice";
+import { addToCart, getCartItems } from "@/features/cart/cartSlice";
 
 const ProductCard = ({ image, title, rating, _id, price }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const handleAddProductToCart = () => {
     dispatch(addToCart({ image, title, _id, price }));
   };
 
   return (
-    <Card sx={{ width: "100%", borderRadius: 2 }}>
+    <Card elevation={3} sx={{ width: "100%", borderRadius: 2 }}>
       <CardMedia image={image} sx={{ height: { xs: 250, md: 250 } }} />
       <CardContent>
         <Typography
@@ -65,7 +67,13 @@ const ProductCard = ({ image, title, rating, _id, price }) => {
           aria-label={`Add ${title} to cart`}
           onClick={handleAddProductToCart}
         >
-          <AddShoppingCartIcon />
+          <Badge
+            invisible={!cartItems[_id]}
+            badgeContent={cartItems[_id]?.qty}
+            color="primary"
+          >
+            <AddShoppingCartIcon />
+          </Badge>
         </IconButton>
       </CardActions>
     </Card>
