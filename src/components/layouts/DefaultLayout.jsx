@@ -7,7 +7,7 @@ import {
   Link,
   Menu,
   MenuItem,
-  Button,
+  Badge,
   IconButton,
   ListItemIcon,
 } from "@mui/material";
@@ -20,9 +20,13 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { getCartItems, getTotalCartItemsQty } from "@/features/cart/cartSlice";
 
 const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
   const router = useRouter();
+
+  const cartItemsQty = useSelector(getTotalCartItemsQty);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -66,7 +70,7 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
           <Stack
             direction="row"
             justifyContent="flex-end"
-            alignItems="flex-end"
+            alignItems="center"
             flexGrow={1}
             gap={3}
             sx={{
@@ -80,7 +84,16 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
               underline="none"
               color="text.primary"
             >
-              <ShoppingCartIcon fontSize="medium" />
+              <Box>
+                <Badge
+                  invisible={!cartItemsQty}
+                  badgeContent={cartItemsQty}
+                  color="primary"
+                  overlap="circular"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+              </Box>
             </Link>
 
             <Link

@@ -12,10 +12,18 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ProductRating from "./ProductRating";
+import { useDispatch } from "react-redux";
 
-const ProductCard = ({ image, title, rating, _id }) => {
+import ProductRating from "./ProductRating";
+import { addToCart } from "@/features/cart/cartSlice";
+
+const ProductCard = ({ image, title, rating, _id, price }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const handleAddProductToCart = () => {
+    dispatch(addToCart({ image, title, _id, price }));
+  };
 
   return (
     <Card sx={{ width: "100%", borderRadius: 2 }}>
@@ -33,6 +41,15 @@ const ProductCard = ({ image, title, rating, _id }) => {
             "I'm baby jianbing meh health goth craft beer. Lo-fi artisan meditation wayfarers photo booth health goth chicharrones roof party tote bag jean shorts cliche post-ironic. Ethical JOMO butcher distillery lumbersexual bruh. Fanny pack blog XOXO portland semiotics ascot"}
         </Typography>
         <ProductRating {...rating} size="small" />
+        <Box mt={2}>
+          <Typography
+            fontWeight="bold"
+            color="primary.dark"
+            variant="subtitle1"
+          >
+            $ {price}
+          </Typography>
+        </Box>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
         <Link
@@ -43,7 +60,11 @@ const ProductCard = ({ image, title, rating, _id }) => {
         >
           View Detail
         </Link>
-        <IconButton color="primary">
+        <IconButton
+          color="primary"
+          aria-label={`Add ${title} to cart`}
+          onClick={handleAddProductToCart}
+        >
           <AddShoppingCartIcon />
         </IconButton>
       </CardActions>
