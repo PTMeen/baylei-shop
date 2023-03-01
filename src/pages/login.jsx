@@ -1,13 +1,24 @@
+import { useState } from "react";
 import { Box, Button, Link, Paper, TextField, Typography } from "@mui/material";
 import NextLink from "next/link";
 import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
 
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { loginSchema } from "@/utils/formValidation";
 
 export default function Login({ activeTheme, toggleTheme }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (values) => {
-    console.log(values);
+    setIsLoading(true);
+    const { email, password } = values;
+    signIn("credentials", {
+      callbackUrl: "/",
+      email,
+      password,
+    });
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -68,8 +79,14 @@ export default function Login({ activeTheme, toggleTheme }) {
             />
           </Box>
 
-          <Button type="submit" variant="contained" fullWidth size="large">
-            Submit
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            size="large"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Submit"}
           </Button>
         </form>
         <Box pt={2}>

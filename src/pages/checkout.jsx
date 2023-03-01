@@ -5,7 +5,7 @@ import DefaultLayout from "@/components/layouts/DefaultLayout";
 import CheckoutStepper from "@/components/CheckoutStepper";
 import CheckoutForms from "@/components/CheckoutForms";
 
-export default function CheckoutScreen({ activeTheme, toggleTheme }) {
+function CheckoutScreen({ activeTheme, toggleTheme }) {
   const [activeStep, setActiveStep] = useState(0);
 
   return (
@@ -26,3 +26,7 @@ export default function CheckoutScreen({ activeTheme, toggleTheme }) {
     </DefaultLayout>
   );
 }
+
+CheckoutScreen.requiredAuth = true;
+
+export default CheckoutScreen;

@@ -7,6 +7,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import "@/styles/globals.css";
 import theme from "@/utils/theme";
 import { persistor, store } from "@/app/store";
+import { SessionProvider } from "next-auth/react";
+import ProtectedPage from "@/components/ProtectedPage";
 
 export default function App({ Component, pageProps }) {
   const [activeTheme, setActiveTheme] = useState("dark");
@@ -25,17 +27,29 @@ export default function App({ Component, pageProps }) {
   };
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme[activeTheme]}>
-          <CssBaseline />
-          <Component
-            {...pageProps}
-            activeTheme={activeTheme}
-            toggleTheme={toggleTheme}
-          />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <SessionProvider session={pageProps.session}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme[activeTheme]}>
+            <CssBaseline />
+            {Component?.requiredAuth ? (
+              <ProtectedPage>
+                <Component
+                  {...pageProps}
+                  activeTheme={activeTheme}
+                  toggleTheme={toggleTheme}
+                />
+              </ProtectedPage>
+            ) : (
+              <Component
+                {...pageProps}
+                activeTheme={activeTheme}
+                toggleTheme={toggleTheme}
+              />
+            )}
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </SessionProvider>
   );
 }

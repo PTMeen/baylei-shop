@@ -1,13 +1,27 @@
 import { Box, Button, Link, Paper, TextField, Typography } from "@mui/material";
 import NextLink from "next/link";
 import { useFormik } from "formik";
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { registerSchema } from "@/utils/formValidation";
 
 export default function Register({ activeTheme, toggleTheme }) {
-  const handleSubmit = (values) => {
-    console.log(values);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (values) => {
+    const { name, email, password } = values;
+
+    setIsLoading(true);
+    await axios.post("/api/auth/register", {
+      name,
+      email,
+      password,
+    });
+    await signIn("credentials", { email, password, callbackUrl: "/" });
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -102,7 +116,13 @@ export default function Register({ activeTheme, toggleTheme }) {
             />
           </Box>
 
-          <Button type="submit" variant="contained" fullWidth size="large">
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            size="large"
+            disabled={isLoading}
+          >
             Submit
           </Button>
         </form>

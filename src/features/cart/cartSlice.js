@@ -33,6 +33,7 @@ const cartSlice = createSlice({
       }
       state.cartItems[action.payload].qty = newQty;
     },
+    resetCart: () => initialState,
   },
 });
 
@@ -49,6 +50,11 @@ export const getTotalCartItemsQty = (state) => {
   return totalQty;
 };
 
-export const { addToCart, removeFromCart, increaseItemQty, decreaseItemQty } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  increaseItemQty,
+  decreaseItemQty,
+  resetCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

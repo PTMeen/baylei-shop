@@ -10,21 +10,27 @@ import {
   Badge,
   IconButton,
   ListItemIcon,
+  Button,
 } from "@mui/material";
 import Head from "next/head";
 import NextLink from "next/link";
-import ThemeToggler from "../ThemeToggler";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { getTotalCartItemsQty } from "@/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useSession, signOut } from "next-auth/react";
+
+import { getTotalCartItemsQty, resetCart } from "@/features/cart/cartSlice";
+import ThemeToggler from "../ThemeToggler";
 
 const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
   const router = useRouter();
+  const { data: session } = useSession();
+  const dispatch = useDispatch();
 
   const cartItemsQty = useSelector(getTotalCartItemsQty);
 
@@ -40,6 +46,11 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
   const handleNavigate = (to) => {
     handleClose();
     router.push(to);
+  };
+
+  const handleLogout = () => {
+    dispatch(resetCart());
+    signOut({ redirect: false });
   };
 
   return (
@@ -96,22 +107,34 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
               </Box>
             </Link>
 
-            <Link
-              component={NextLink}
-              href="/login"
-              underline="none"
-              fontWeight="bold"
-              sx={(theme) => ({
-                alignSelf: "center",
-                bgcolor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-                px: 3,
-                py: 1,
-                borderRadius: "15px",
-              })}
-            >
-              Login
-            </Link>
+            {!session ? (
+              <Link
+                component={NextLink}
+                href="/login"
+                underline="none"
+                fontWeight="bold"
+                sx={(theme) => ({
+                  alignSelf: "center",
+                  bgcolor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
+                  px: 3,
+                  py: 1,
+                  borderRadius: "15px",
+                })}
+              >
+                Login
+              </Link>
+            ) : (
+              <Button
+                variant="outlined"
+                sx={{
+                  borderRadius: "15px",
+                }}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            )}
           </Stack>
           <Box
             flexGrow={1}
@@ -142,12 +165,21 @@ const DefaultLayout = ({ children, toggleTheme, title, activeTheme }) => {
                 </ListItemIcon>
                 Cart {cartItemsQty ? `(${cartItemsQty})` : null}
               </MenuItem>
-              <MenuItem onClick={() => handleNavigate("/login")}>
-                <ListItemIcon>
-                  <ExitToAppIcon />
-                </ListItemIcon>
-                Login
-              </MenuItem>
+              {session ? (
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              ) : (
+                <MenuItem onClick={() => handleNavigate("/login")}>
+                  <ListItemIcon>
+                    <LoginIcon />
+                  </ListItemIcon>
+                  Login
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   handleClose();
