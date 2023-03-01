@@ -26,6 +26,10 @@ const lightTheme = createTheme({
       800: "#2e2e2e",
       900: "#171717",
     },
+    background: {
+      default: "#e5e5e5",
+      paper: "#f5f5f5",
+    },
   },
   typography: {
     brand: {

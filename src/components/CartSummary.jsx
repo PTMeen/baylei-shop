@@ -1,9 +1,12 @@
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 import { getCartItems, getTotalCartItemsQty } from "@/features/cart/cartSlice";
 import { Box, Button, Paper, Typography } from "@mui/material";
 
 export default function CartSummary() {
+  const router = useRouter();
+
   const cartItems = useSelector(getCartItems);
   const totalCartItemsQty = useSelector(getTotalCartItemsQty);
   const totalPrice = cartItems.reduce((acc, curr) => {
@@ -24,6 +27,7 @@ export default function CartSummary() {
           fullWidth
           size="large"
           disabled={!totalCartItemsQty}
+          onClick={() => router.push("/checkout")}
         >
           Checkout
         </Button>

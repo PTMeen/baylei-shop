@@ -21,4 +21,12 @@ const registerSchema = yup.object({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
-export { loginSchema, registerSchema };
+const shippingAddressSchema = yup.object({
+  firstName: yup.string().required("Enter first name"),
+  lastName: yup.string().required("Enter last name"),
+  postalCode: yup.string().required("Enter last postal code"),
+  country: yup.string().required("Enter last country"),
+  address: yup.string().required("Enter last address"),
+});
+
+export { loginSchema, registerSchema, shippingAddressSchema };
