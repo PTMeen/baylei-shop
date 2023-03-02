@@ -1,6 +1,7 @@
-import { Grid, Link, Paper, Typography } from "@mui/material";
+import { Box, Grid, Link, Paper, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import NextLink from "next/link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { getCartItems } from "@/features/cart/cartSlice";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
@@ -16,6 +17,16 @@ export default function CartScreen({ activeTheme, toggleTheme }) {
       activeTheme={activeTheme}
       toggleTheme={toggleTheme}
     >
+      <Box mb={2}>
+        <Link
+          component={NextLink}
+          underline="hover"
+          href="/"
+          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+        >
+          <ArrowBackIcon /> Keep Shopping
+        </Link>
+      </Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           {cartItems.length ? (

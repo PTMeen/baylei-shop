@@ -9,22 +9,32 @@ import {
 
 import { shippingAddressSchema } from "@/utils/formValidation";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getShippingAddress,
+  setShippingAddress,
+} from "@/features/cart/cartSlice";
 
-export default function ShippingAddressForm() {
+export default function ShippingAddressForm({ handleNextStep }) {
+  const dispatch = useDispatch();
+  const shippingAddress = useSelector(getShippingAddress);
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      postalCode: "",
-      country: "",
-      address: "",
+      firstName: shippingAddress?.firstName || "",
+      lastName: shippingAddress?.lastName || "",
+      postalCode: shippingAddress?.postalCode || "",
+      country: shippingAddress?.country || "",
+      address: shippingAddress?.address || "",
     },
     validationSchema: shippingAddressSchema,
     onSubmit: handleSubmit,
   });
 
   function handleSubmit(values) {
+    dispatch(setShippingAddress(values));
     console.log(values);
+    handleNextStep();
   }
 
   return (

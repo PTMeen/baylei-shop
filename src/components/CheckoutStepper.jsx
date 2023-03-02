@@ -1,27 +1,13 @@
-import {
-  Box,
-  Button,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Step, StepLabel, Stepper, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import HomeIcon from "@mui/icons-material/Home";
 
-const steps = ["Address", "Payment", "Order"];
+const steps = ["Address", "Place Order"];
 
 export default function CheckoutStepper({ activeStep, setActiveStep }) {
   const theme = useTheme();
   const smallScreen = useMediaQuery(
     `(width <= ${theme.breakpoints.values.md}px)`
   );
-
-  const handleNextStep = () => {
-    setActiveStep((prev) => prev + 1);
-  };
 
   return (
     <Box>

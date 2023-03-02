@@ -4,6 +4,7 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   cartItems: {},
+  shippingAddress: {},
 };
 
 const cartSlice = createSlice({
@@ -34,6 +35,12 @@ const cartSlice = createSlice({
       state.cartItems[action.payload].qty = newQty;
     },
     resetCart: () => initialState,
+    setShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+    },
+    resetCartItems: (state) => {
+      state.cartItems = {};
+    },
   },
 });
 
@@ -50,11 +57,17 @@ export const getTotalCartItemsQty = (state) => {
   return totalQty;
 };
 
+export const getShippingAddress = (state) => {
+  return state.cart.shippingAddress;
+};
+
 export const {
   addToCart,
   removeFromCart,
   increaseItemQty,
   decreaseItemQty,
   resetCart,
+  resetCartItems,
+  setShippingAddress,
 } = cartSlice.actions;
 export default cartSlice.reducer;

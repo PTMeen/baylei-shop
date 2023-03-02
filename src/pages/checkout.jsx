@@ -8,6 +8,8 @@ import CheckoutForms from "@/components/CheckoutForms";
 function CheckoutScreen({ activeTheme, toggleTheme }) {
   const [activeStep, setActiveStep] = useState(0);
 
+  const handleNextStep = () => setActiveStep((prev) => prev + 1);
+
   return (
     <DefaultLayout
       title="Checkout - Baylei's"
@@ -20,7 +22,11 @@ function CheckoutScreen({ activeTheme, toggleTheme }) {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
           />
-          <CheckoutForms />
+          <CheckoutForms
+            handleNextStep={handleNextStep}
+            activeStep={activeStep}
+            activeTheme={activeTheme}
+          />
         </Stack>
       </Box>
     </DefaultLayout>
