@@ -66,7 +66,7 @@ export default function StripeCheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/paymentcomplete",
+        return_url: "https://baylei-shop-qny6g8v5b-ptmeen.vercel.app",
       },
     });
 
