@@ -10,14 +10,17 @@ import { loginSchema } from "@/utils/formValidation";
 export default function Login({ activeTheme, toggleTheme }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     setIsLoading(true);
+
     const { email, password } = values;
     signIn("credentials", {
-      callbackUrl: "/",
+      // callbackUrl: "/",
+      redirect: false,
       email,
       password,
     });
+
     setIsLoading(false);
   };
 

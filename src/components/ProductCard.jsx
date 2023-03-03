@@ -15,7 +15,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useDispatch, useSelector } from "react-redux";
 
 import ProductRating from "./ProductRating";
-import { addToCart, getCartItems } from "@/features/cart/cartSlice";
+import { addToCart } from "@/features/cart/cartSlice";
 
 const ProductCard = ({ image, title, rating, _id, price }) => {
   const theme = useTheme();

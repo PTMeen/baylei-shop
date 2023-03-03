@@ -16,15 +16,6 @@ export default function StripePayment({ activeTheme }) {
   const [clientSecret, setClientSecret] = React.useState("");
 
   React.useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    // fetch("/api/create-payment-intent", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ items: cartItems }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => setClientSecret(data.clientSecret));
-
     axios
       .post("/api/create-payment-intent", { items: cartItems })
       .then((response) => setClientSecret(response.data.clientSecret));
