@@ -15,8 +15,7 @@ export default function Login({ activeTheme, toggleTheme }) {
 
     const { email, password } = values;
     signIn("credentials", {
-      // callbackUrl: "/",
-      redirect: false,
+      callbackUrl: "/",
       email,
       password,
     });
